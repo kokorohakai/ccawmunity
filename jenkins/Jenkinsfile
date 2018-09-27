@@ -1,32 +1,31 @@
 pipeline {
   agent none
   stages {
-    stage('Test') {
-      agent {
-        docker {
-          image 'qnib/pytest'
-        }
-      }
-      steps {
-        sh 'py.test --verbose --junit-xml tests/results.xml chatbot/chat.py'
-      }
-      post {
-        always {
-          junit 'tests/results.xml'
-        }
-      }
-    }
+    // stage('Test') {
+    //   agent {
+    //     docker {
+    //       image 'qnib/pytest'
+    //     }
+    //   }
+    //   steps {
+    //     sh 'py.test --verbose --junit-xml tests/results.xml chatbot/chat.py'
+    //   }
+    //   post {
+    //     always {
+    //       junit 'tests/results.xml'
+    //     }
+    //   }
+    // }
     stage('Build') {
       agent any
       steps {
-        sh 'docker build -t ccawmu-${BUILD_NUMBER} .'
+        sh 'docker build -t ccawmu .'
       }
     }
-    stage('Deploy') {
-      agent any
-      steps {
-        sh 'docker run ccawmu-${BUILD_NUMBER}'
-      }
+  }
+  post {
+    success {
+      sh 'docker run ccawmu:latest'
     }
   }
 }
