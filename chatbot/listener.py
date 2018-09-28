@@ -9,10 +9,11 @@ from requests.exceptions import MissingSchema
 def listener(room, event):
     if event['type'] == "m.room.member":
         if event['membership'] == "join":
-            print("{0} joined".format(event['content']['displayname']))
+            True
+            #print("{0} joined".format(event['content']['displayname']))
     elif event['type'] == "m.room.message":
         if event['content']['msgtype'] == "m.text":
-            print("{0}: {1}".format(event['sender'], event['content']['body']))
+            #print("{0}: {1}".format(event['sender'], event['content']['body']))
 
             # ignore anything the bot might send to itself
             if(event['sender'] == "@"+bot.config.username+":cclub.cs.wmich.edu"):
