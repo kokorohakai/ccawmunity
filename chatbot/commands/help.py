@@ -4,8 +4,6 @@ import bot
 def botHelp(body={}, roomId="", sender="", event={}):
     if( len(body) >= 2):
         helpCommand = body[1]
-        print( bot.HELPLIST )
-        print( bot.HELPLIST[helpCommand] )
 
         if helpCommand in bot.HELPLIST:
             return bot.HELPLIST[helpCommand]
