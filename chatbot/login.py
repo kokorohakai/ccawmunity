@@ -8,11 +8,12 @@ from requests.exceptions import MissingSchema
 def login():
     config = bot.config
 
-    #attempt to log in.
-    print("Attempting to log in...")
-
     if config.password == "":
         config.password = getpass.getpass(prompt='Password: ')
+
+
+    #attempt to log in.
+    print("Attempting to log in...")
 
     try:
         bot.client.login_with_password(config.username, config.password)
@@ -24,14 +25,13 @@ def login():
         else:
             print("Check your sever details are correct.")
             sys.exit(2)
-
-    #join the room supplied by the config.
-    print("Login Successful, joining room....")
-
     except MissingSchema as e:
         print("Bad URL format.")
         print(e)
         sys.exit(3)
+
+    #join the room supplied by the config.
+    print("Login Successful, joining room....")
 
     try:
         bot.room = bot.client.join_room(config.room)
