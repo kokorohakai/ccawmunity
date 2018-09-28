@@ -12,86 +12,54 @@
 # 12 - Couldn't find room.
 
 import sys
+import os
 import logging
-import getpass
+import time
+import signal
 
 from matrix_client.client import MatrixClient
 from matrix_client.api import MatrixRequestError
 from requests.exceptions import MissingSchema
 
 from functools import partial
-import botvars
-from config import *
-from chatcommands import *
+import bot
+from listener import *
+from login import *
 
-
-# called when a message is recieved.
-def on_message(room, event):
-    if event['type'] == "m.room.member":
-        if event['membership'] == "join":
-            print("{0} joined".format(event['content']['displayname']))
-    elif event['type'] == "m.room.message":
-        if event['content']['msgtype'] == "m.text":
-            print("{0}: {1}".format(event['sender'], event['content']['body']))
-
-            # ignore anything the bot might send to itself
-            if(event['sender'] == "@"+config.username+":cclub.cs.wmich.edu"):
-                return
-
-            # create responses for messages starting with $
-            if(event['content']['body'][0] == '$'):
-
-                output = event['content']['body'].split(" ")
-                command = output[0]
-
-                # if the command is in our dictionary of functions, use it (from commands.py)
-                if command in botvars.COMMANDLIST:
-                    room.send_text(botvars.COMMANDLIST[command](body=output, roomId=event["room_id"], sender=event["sender"], event=event))
-                else:
-                    room.send_text("Command not recognized, please try \"$commands\" for available commands")
-    else:
-        print(event['type'])
-
+def shutdown(self,signum):
+    print ("Shutting Down")
+    bot.running = False
+    time.sleep(1)
+    exit(0)
 
 def main():
-    if config.password == "":
-        config.password = getpass.getpass(prompt='Password: ')
+    #parses arguments passed into the application.
+    #We may want to make this a function on it's own that handles this in a single pass, instead of scanning it each time for possible values.
+    if "-q" in sys.argv:
+        f = open(os.devnull, 'w')
+        sys.stdout = f
+    if "-h" in sys.argv or "--help" in sys.argv:
+        print("Usage: chat <options>")
+        print("-q : No standard output")
+        print("-h : Print Help")
+        exit(0)
 
-    client = MatrixClient(config.clienturl)
+    #initialze the client for the bot.
+    bot.client = MatrixClient(bot.config.clienturl)
 
-    try:
-        client.login_with_password(config.username, config.password)
-    except MatrixRequestError as e:
-        print(e)
-        if e.code == 403:
-            print("Bad username or password.")
-            sys.exit(4)
-        else:
-            print("Check your sever details are correct.")
-            sys.exit(2)
-    except MissingSchema as e:
-        print("Bad URL format.")
-        print(e)
-        sys.exit(3)
+    #attempt to login.
+    login()
 
-    try:
-        room = client.join_room(config.room)
-    except MatrixRequestError as e:
-        print(e)
-        if e.code == 400:
-            print("Room ID/Alias in the wrong format")
-            sys.exit(11)
-        else:
-            print("Couldn't find room.")
-            sys.exit(12)
+    #if success, start the command listener.
+    bot.room.add_listener(listener)
+    bot.client.start_listener_thread()
 
-    room.add_listener(on_message)
-    client.start_listener_thread()
-
-    while True:
-        msg = input()
+    #loop forever until a signal is caught. Sleeping between each iteration so it doesn't consume CPU
+    while bot.running:
+        time.sleep(1)#sleeps 1 second
 
 if __name__ == '__main__':
-    config = Config();
+    signal.signal(signal.SIGINT,shutdown)
+    signal.signal(signal.SIGTERM,shutdown)
     logging.basicConfig(level=logging.WARNING)
     main()

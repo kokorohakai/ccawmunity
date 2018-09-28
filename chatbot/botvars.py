@@ -1,4 +1,0 @@
-global HELPLIST
-HELPLIST = {}
-global COMMANDLIST
-COMMANDLIST = {}
