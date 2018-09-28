@@ -24,3 +24,6 @@
 - [ ] add the function chat name to the HELPLIST dictionary as
       a key AND a string explaining how to use it as the value
       ie HELPLIST["$test"] = "$test - returns a String yelling at dolphin"
+
+To start your own instance of this server, copy config.dist.py to config.py
+and fill in your credentials for your bot.
