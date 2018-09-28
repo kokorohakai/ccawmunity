@@ -1,7 +1,8 @@
-import settings
+import botvars 
 # chat command $commands
 # returns String - of all the possible bot functions
 def commands(body={}, roomId="", sender="", event={}):
-   output = " ".join(settings.COMMANDLIST)
+   output = " ".join(botvars.COMMANDLIST)
    return output
-settings.COMMANDLIST["$commands"] = commands
+botvars.COMMANDLIST["$commands"] = commands
+botvars.HELPLIST["$commands"] = "$commands - No parameters required, lists all available commands."

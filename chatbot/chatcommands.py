@@ -1,4 +1,4 @@
-import settings
+import botvars
 from commands import *
 
 # HOW TO CONTRIBUTE A FUNCTION
@@ -34,12 +34,3 @@ from commands import *
 
 
 # define our global help list based on the function
-HELPLIST = {
-    "$test": "$test - No parameters requirerd, yells at dolphin.",
-    "$random": "$random - No parameters required, returns number 0-100 inclusive.",
-    "$echo": "$echo - N parameters accepted separated by spaces, bot echoes them back to chat.\"$echo arg1 arg2\"",
-    "$commands": "$commands - No parameters required, lists all available commands.",
-    "$help": "$help - 1 accepted, returns information about the use of a given function ie \"$help $echo\".",
-    "$eccho": "$eccho - No parameters required, inside A E S T H E T I C joke.",
-    "$contribute": "$contribute - No parameters required, links the repository url."
-}
