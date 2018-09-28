@@ -19,7 +19,7 @@ import random
 # [ ] add the function chat name to the HELPLIST dictionary as
 #     a key AND a string explaining how to use it as the value
 #     ie "$test": "$test - returns a String yelling at dolphin"
-# 
+#
 # [ ] double check that the dictionaries follow the format
 #     "key": value, the last k/v in a dictionary has no trailing comma
 
@@ -53,7 +53,7 @@ def commands(body={}, roomId="", sender="", event={}):
 def botHelp(body={}, roomId="", sender="", event={}):
     if(len(body) >= 2):
         if(body[1] in HELPLIST):
-            return HELPLIST[body[1]] 
+            return HELPLIST[body[1]]
         else:
             return "The command you are looking or can't be found, please try again."
     else:
@@ -83,8 +83,8 @@ COMMANDLIST = {
 # define our global help list based on the function
 HELPLIST = {
     "$test": "$test - No parameters requirerd, yells at dolphin.",
-    "$random": "$random - No parameters required, returns number 0-100 inclusive.", 
-    "$echo": "$echo - N parameters accepted separated by spaces, bot echoes them back to chat.\"$echo arg1 arg2\"", 
+    "$random": "$random - No parameters required, returns number 0-100 inclusive.",
+    "$echo": "$echo - N parameters accepted separated by spaces, bot echoes them back to chat.\"$echo arg1 arg2\"",
     "$commands": "$commands - No parameters required, lists all available commands.",
     "$help": "$help - 1 accepted, returns information about the use of a given function ie \"$help $echo\".",
     "$eccho": "$eccho - No parameters required, inside A E S T H E T I C joke.",

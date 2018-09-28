@@ -13,6 +13,7 @@
 
 import sys
 import logging
+import getpass
 
 from matrix_client.client import MatrixClient
 from matrix_client.api import MatrixRequestError
@@ -31,7 +32,7 @@ def on_message(room, event):
             print("{0}: {1}".format(event['sender'], event['content']['body']))
 
             # ignore anything the bot might send to itself
-            if(event['sender'] == "@ccawmu:cclub.cs.wmich.edu"):
+            if(event['sender'] == "@urd:cclub.cs.wmich.edu"):
                 return
 
             # create responses for messages starting with $
@@ -53,7 +54,7 @@ def main(password):
     client = MatrixClient("https://cclub.cs.wmich.edu")
 
     try:
-        client.login_with_password("ccawmu", password)
+        client.login_with_password("urd", password)
     except MatrixRequestError as e:
         print(e)
         if e.code == 403:
@@ -68,7 +69,7 @@ def main(password):
         sys.exit(3)
 
     try:
-        room = client.join_room("#ccawmunity:cclub.cs.wmich.edu")
+        room = client.join_room("#bottest:cclub.cs.wmich.edu")
     except MatrixRequestError as e:
         print(e)
         if e.code == 400:
@@ -87,8 +88,9 @@ def main(password):
 if __name__ == '__main__':
 
     logging.basicConfig(level=logging.WARNING)
-    
-    #grab pass as argv for now 
-    password = sys.argv[1] 
-     
+
+    #grab pass as argv for now
+    password = getpass.getpass(prompt='Password: ')
+    #password = sys.argv[1]
+
     main(password)
