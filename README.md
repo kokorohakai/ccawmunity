@@ -11,16 +11,16 @@
       then create a matching function within that file.
       all of these should be named the exact same.
 
-  [ ] use the same arguments as the other commands,
+- [ ] use the same arguments as the other commands,
       as these are standardized for that event type
       (all COMMANDLIST functions are for message.text events)
 
-  [ ] make sure you're returning a string
+- [ ] make sure you're returning a string
 
-  [ ] add the function chat name to the COMMANDLIST dictionary
+- [ ] add the function chat name to the COMMANDLIST dictionary
       as a key AND the function definition name as the value
       ie COMMANDLIST["$test"] = test
 
-  [ ] add the function chat name to the HELPLIST dictionary as
+- [ ] add the function chat name to the HELPLIST dictionary as
       a key AND a string explaining how to use it as the value
       ie HELPLIST["$test"] = "$test - returns a String yelling at dolphin"
