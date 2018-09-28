@@ -20,8 +20,9 @@ from matrix_client.api import MatrixRequestError
 from requests.exceptions import MissingSchema
 
 from functools import partial
-from commands import *
+import settings
 from config import *
+from chatcommands import *
 
 # called when a message is recieved.
 def on_message(room, event):
@@ -43,8 +44,8 @@ def on_message(room, event):
                 command = output[0]
 
                 # if the command is in our dictionary of functions, use it (from commands.py)
-                if command in COMMANDLIST:
-                    room.send_text(COMMANDLIST[command](body=output, roomId=event["room_id"], sender=event["sender"], event=event))
+                if command in settings.COMMANDLIST:
+                    room.send_text(settings.COMMANDLIST[command](body=output, roomId=event["room_id"], sender=event["sender"], event=event))
                 else:
                     room.send_text("Command not recognized, please try \"$commands\" for available commands")
     else:
