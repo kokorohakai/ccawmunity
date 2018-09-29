@@ -1,14 +1,14 @@
 import bot
-import urllib
+import requests
 import json
+import ast
 
 # uses JERKCITY
 # which is now bonequest
 # bonequest.com
 def jerkit(body={}, roomId="", sender="", event={}):
     url = "https://www.bonequest.com/api/v2/quote/random/1"
-    response = urllib.request.urlopen(url)
-    data = json.loads(response.read())
+    data = requests.get(url).json()
     dialog = data["episodes"][0]["dialog"]
     n = 0;
 
@@ -18,8 +18,6 @@ def jerkit(body={}, roomId="", sender="", event={}):
         if len(q) > 0:
             output += ": " + q[1]
         output += "\n"
-    #output = data["episodes"][0]["dialog"][0] + ": " + data["episodes"][0]["dialog"][1]
-    #output = data["episodes"][0]["dialog"][1]
     return output
 
 bot.COMMANDLIST["jerkit"] = jerkit
