@@ -16,7 +16,7 @@ def login():
     print("Attempting to log in...")
 
     try:
-        bot.client.login_with_password(config.username, config.password)
+        bot.matrixClient.login_with_password(config.username, config.password)
     except MatrixRequestError as e:
         print(e)
         if e.code == 403:
@@ -34,7 +34,7 @@ def login():
     print("Login Successful, joining room....")
 
     try:
-        bot.room = bot.client.join_room(config.room)
+        bot.room = bot.matrixClient.join_room(config.room)
     except MatrixRequestError as e:
         print(e)
         if e.code == 400:

@@ -1,5 +1,6 @@
 from config import *
 import discord
+from matrix_client.client import MatrixClient
 
 #command parsing variables
 global HELPLIST
@@ -12,7 +13,10 @@ global config
 config = Config
 #matrix client variables.
 global room
-global client
+global matrixClient
+#initialze the client for the bot.
+matrixClient = MatrixClient(config.clienturl)
+
 #discord client variables
 global discordClient
 discordClient = discord.Client()
