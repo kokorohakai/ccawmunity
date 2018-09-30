@@ -19,13 +19,14 @@ def listener(room, event):
             if(event['sender'] == "@"+bot.config.username+":cclub.cs.wmich.edu"):
                 return
 
+            #built in auto response to mention.
+            if ( bot.config.username+":" in output):
+                bot.room.send_text("Hi! I am a bot. If you want to know my commands type \""+bot.config.prefix+"commands\" for available commands")
+
             # split the string to commands
             output =  event['content']['body'].split(" ")
 
-            if ( output[0] == bot.config.username+":" ):
-                bot.room.send_text("Hi! I am a bot. If you want to know my commands type \""+bot.config.prefix+"commands\" for available commands")
-
-            # create responses for messages starting with $
+            # create responses for messages starting with prefix
             if (output[0][0] == bot.config.prefix and len(output[0]) > 0 ):
                 command = output[0][1:]
 

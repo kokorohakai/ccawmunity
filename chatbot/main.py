@@ -16,6 +16,7 @@ import os
 import logging
 import time
 import signal
+import discord
 
 from matrix_client.client import MatrixClient
 from matrix_client.api import MatrixRequestError
@@ -24,6 +25,7 @@ from requests.exceptions import MissingSchema
 from functools import partial
 import bot
 from listener import *
+from discordListener import *
 from login import *
 
 def shutdown(self,signum):
@@ -49,6 +51,12 @@ def main():
 
     #attempt to login.
     login()
+
+    #attempt to connect with discord.
+    if len(bot.config.token) > 0:
+        print("discord bot token supplied, attempting to log in.")
+        bot.discordClient.run(bot.config.token)
+
 
     #if success, start the command listener.
     bot.room.add_listener(listener)
