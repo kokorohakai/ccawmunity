@@ -10,3 +10,5 @@ class Config():
     token = ""
     #Open weather
     weatherkey = ""
+    #replies for hug
+    hugreplies = []

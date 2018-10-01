@@ -1,5 +1,5 @@
 #add your command file here!
-__all__ = ["help","commands","contribute","eccho","echo","random","jerkit","rimg","weather"]
+__all__ = ["help","commands","contribute","eccho","echo","random","jerkit","rimg","weather","hug"]
 
 # HOW TO CONTRIBUTE A FUNCTION
 #
