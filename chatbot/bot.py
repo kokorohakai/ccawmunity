@@ -12,10 +12,11 @@ global config
 #user config.
 config = Config
 #matrix client variables.
-global room
+global rooms
+rooms = {}
 global matrixClient
 #initialze the client for the bot.
-matrixClient = MatrixClient(config.clienturl)
+matrixClient = MatrixClient(config.matrix["clienturl"])
 
 #discord client variables
 global discordClient

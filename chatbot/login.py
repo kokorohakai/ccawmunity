@@ -8,15 +8,15 @@ from requests.exceptions import MissingSchema
 def login():
     config = bot.config
 
-    if config.password == "":
-        config.password = getpass.getpass(prompt='Password: ')
+    if config.matrix["password"] == "":
+        config.matrix["password"] = getpass.getpass(prompt='Password: ')
 
 
     #attempt to log in.
     print("Attempting to log in...")
 
     try:
-        bot.matrixClient.login_with_password(config.username, config.password)
+        bot.matrixClient.login_with_password(config.matrix["username"], config.matrix["password"])
     except MatrixRequestError as e:
         print(e)
         if e.code == 403:
@@ -33,15 +33,15 @@ def login():
     #join the room supplied by the config.
     print("Login Successful, joining room....")
 
-    try:
-        bot.room = bot.matrixClient.join_room(config.room)
-    except MatrixRequestError as e:
-        print(e)
-        if e.code == 400:
-            print("Room ID/Alias in the wrong format")
-            sys.exit(11)
-        else:
-            print("Couldn't find room.")
-            sys.exit(12)
-
-    print("Joined room "+config.room)
+    for room in config.matrix["rooms"]:
+        try:
+            bot.rooms[room] = bot.matrixClient.join_room(room)
+            print("Joined room "+room)
+        except MatrixRequestError as e:
+            print(e)
+            if e.code == 400:
+                print("Room ID/Alias in the wrong format")
+                sys.exit(11)
+            else:
+                print("Couldn't find room:"+room)
+                sys.exit(12)

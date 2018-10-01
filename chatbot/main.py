@@ -50,14 +50,15 @@ def main():
     login()
 
     #if success, start the command listener.
-    bot.room.add_listener(listener)
+    for i in bot.rooms:
+        bot.rooms[i].add_listener(listener)
     bot.matrixClient.start_listener_thread()
 
     #attempt to connect with discord.
-    if len(bot.config.token) > 0:
+    if len(bot.config.discord["token"]) > 0:
         print("discord bot token supplied, attempting to log in.")
         #for some reason this starts it's own blocking loop.
-        bot.discordClient.run(bot.config.token)
+        bot.discordClient.run(bot.config.discord["token"])
 
     #loop forever until a signal is caught. Sleeping between each iteration so it doesn't consume CPU
     while bot.running:

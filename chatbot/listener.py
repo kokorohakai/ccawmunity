@@ -16,12 +16,12 @@ def listener(room, event):
             #print("{0}: {1}".format(event['sender'], event['content']['body']))
 
             # ignore anything the bot might send to itself
-            if(event['sender'] == "@"+bot.config.username+":cclub.cs.wmich.edu"):
+            if(event['sender'] == "@"+bot.config.matrix["username"]+":cclub.cs.wmich.edu"):
                 return
 
             #built in auto response to mention.
-            if ( bot.config.username+":" in event['content']['body']):
-                bot.room.send_text("Hi! I am a bot. If you want to know my commands type \""+bot.config.prefix+"commands\" for available commands")
+            if ( bot.config.matrix["username"]+":" in event['content']['body']):
+                room.send_text("Hi! I am a bot. If you want to know my commands type \""+bot.config.prefix+"commands\" for available commands")
 
             # split the string to commands
             output = event['content']['body'].split(" ")
@@ -33,9 +33,9 @@ def listener(room, event):
                 # if the command is in our dictionary of functions, use it (from commands.py)
                 if command in bot.COMMANDLIST:
                     try:
-                        bot.room.send_text(bot.COMMANDLIST[command](body=output, roomId=event["room_id"], sender=event["sender"], event=event))
+                        room.send_text(bot.COMMANDLIST[command](body=output, roomId=event["room_id"], sender=event["sender"], event=event))
                     except Exception as e:
                         print(e)
-                        bot.room.send_text("This command failed to execute")
+                        room.send_text("This command failed to execute")
     else:
         print(event['type'])

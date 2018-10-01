@@ -7,12 +7,12 @@ def hug(body={}, roomId="", sender="", event={}):
     output = ""
     print(sender)
     if len(body) == 1:
-        output = "/me hugs "+sender+"\n"
+        output = "* "+bot.config.matrix["username"]+" hugs "+sender+"\n"
     elif len(body) >= 2:
-        output = "/me hugs "+body[1]+"\n"
+        output = "* "+bot.config.matrix["username"]+" hugs "+body[1]+"\n"
 
-    n = random.randint( 0, len(bot.config.hugreplies)-1)
-    output += bot.config.hugreplies[n]
+    n = random.randint( 0, len(bot.config.hug["replies"])-1)
+    output += bot.config.hug["replies"][n]
 
     return output
 

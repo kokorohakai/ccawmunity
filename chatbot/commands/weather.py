@@ -44,14 +44,22 @@ def formatOutput(weather={}):
     return output
 # uses openweathermap.com
 def weather(body={}, roomId="", sender="", event={}):
-    if len(bot.config.weatherkey) > 0:
+    if len(bot.config.weather["key"]) > 0:
         baseurl = "https://api.openweathermap.org/data/2.5/weather?"
         body.pop(0)
+        #set the city
         city = str("+".join(body))
-        citystr = "q=" + city + ",us"
-        key = "&appid="+bot.config.weatherkey
+        if (len(city) < 1):
+            city = bot.config.weather["city"]
+        citystr = "q=" + city
+        if len(bot.config.weather["country"]) > 0:
+            citystr += ",us"
+        #set the key
+        key = "&appid="+bot.config.weather["key"]
+        #set the url and get our data
         url = baseurl+citystr+key
         data = requests.get(url).json()
+        #time to format the output.
         ecode = int(data["cod"])
         if ecode == 404:
             output = data["message"]
