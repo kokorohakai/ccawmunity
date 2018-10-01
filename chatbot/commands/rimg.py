@@ -11,7 +11,7 @@ def rimg(body={}, roomId="", sender="", event={}):
     searchTerms = body
     searchTerms.pop(0)
     search = "+".join(body)
-    url = "https://www.google.com/search?tbm=isch&q="+search+"&oq="+search+"&gs_l=img"
+    url = "https://www.google.com/search?tbm=isch&q="+search+"&oq="+search+"&gs_l=img&safesearch=on"
 
     #get the page
     headers = {}
