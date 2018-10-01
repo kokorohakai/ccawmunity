@@ -21,8 +21,8 @@ async def on_message(message):
 
     # create responses for messages starting with prefix
     if len(output) > 0:
-        if len(output[0]) > 0 ):
-            if (output[0][0] == bot.config.prefix: 
+        if len(output[0]) > 0:
+            if (output[0][0] == bot.config.prefix:
                 command = output[0][1:]
 
                 # if the command is in our dictionary of functions, use it (from commands.py)
