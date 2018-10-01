@@ -20,16 +20,18 @@ async def on_message(message):
     output =  message.content.split(" ")
 
     # create responses for messages starting with prefix
-    if (output[0][0] == bot.config.prefix and len(output[0]) > 0 ):
-        command = output[0][1:]
+    if len(output) > 0:
+        if len(output[0]) > 0 ):
+            if (output[0][0] == bot.config.prefix: 
+                command = output[0][1:]
 
-        # if the command is in our dictionary of functions, use it (from commands.py)
-        if command in bot.COMMANDLIST:
-            try:
-                await bot.discordClient.send_message(message.channel, bot.COMMANDLIST[command]( body=output, roomId=message.channel, sender=message.author, event=message ))
-            except Exception as e:
-                print(e)
-                await bot.discordClient.send_message(message.channel,"This command failed to execute")
+                # if the command is in our dictionary of functions, use it (from commands.py)
+                if command in bot.COMMANDLIST:
+                    try:
+                        await bot.discordClient.send_message(message.channel, bot.COMMANDLIST[command]( body=output, roomId=message.channel, sender=message.author, event=message ))
+                    except Exception as e:
+                        print(e)
+                        await bot.discordClient.send_message(message.channel,"This command failed to execute")
 
 
 @bot.discordClient.event
