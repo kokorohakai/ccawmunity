@@ -16,7 +16,8 @@ def shutdown(self,signum):
 def main():
     global theBot
     bot.init()
-    bot.theBot.go();
+    bot.theBot.dbConnect()
+    bot.theBot.go()
 
 
 if __name__ == '__main__':

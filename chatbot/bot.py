@@ -5,6 +5,7 @@ import discord
 from matrix_client.client import MatrixClient
 from commandcenter import *
 import listeners
+import mysql.connector
 
 class Bot():
     def __init__(self):
@@ -18,7 +19,7 @@ class Bot():
         self.matrix = listeners.Matrix()
         self.discord = listeners.Discord()
 
-
+        self.mydb = {}
 
         if "-q" in sys.argv:
             f = open(os.devnull, 'w')
@@ -29,6 +30,21 @@ class Bot():
             print("-h : Print Help")
             exit(0)
         return
+
+    def dbConnect(self):
+        if len(self.config.mysql["host"]) > 0:
+            print("Connecting to Database")
+            try:
+                self.mydb = mysql.connector.connect(
+                    host = self.config.mysql["host"],
+                    user = self.config.mysql["user"],
+                    passwd = self.config.mysql["passwd"],
+                    database = self.config.mysql["database"]
+                )
+            except:
+                print("Could not connect to database.")
+
+
     def go(self):
         self.cc.buildList()
         #start matrix stuff.

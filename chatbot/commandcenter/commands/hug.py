@@ -1,7 +1,6 @@
 from ..command import Command
 from ..eventpackage import EventPackage
 import bot
-import random
 
 class HugCommand(Command):
     def __init__(self):
@@ -19,7 +18,9 @@ class HugCommand(Command):
         elif len(event_pack.body) >= 2:
             output = "* "+bot.theBot.config.matrix["username"]+" hugs "+event_pack.body[1]+"\n"
 
-        n = random.randint( 0, len(bot.theBot.config.hug["replies"])-1)
-        output += bot.theBot.config.hug["replies"][n]
+        cur = bot.theBot.mydb.cursor()
+        cur.execute("SELECT * FROM hug ORDER BY RAND() LIMIT 1")
+        res = cur.fetchall()
+        output += res[0][1]
 
         return output

@@ -10,5 +10,10 @@ class Config():
     token = ""
     #Open weather
     weatherkey = ""
-    #replies for hug
-    hugreplies = []
+    #mysql connection. If it exists, bot will try to connect with supplied credentials.
+    mysql = {
+        "host": "",
+        "user": "",
+        "passwd": "",
+        "database":""
+    }
