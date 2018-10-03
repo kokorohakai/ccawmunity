@@ -3,26 +3,36 @@ import sys
 import os
 import logging
 import time
-import signal
 
-from matrix_client.client import MatrixClient
-from matrix_client.api import MatrixRequestError
-from requests.exceptions import MissingSchema
 
 from functools import partial
 import bot
-from listener import *
-from login import *
+from commandcenter import *
 
 def main():
+    bot.init()
+
     if len(sys.argv) > 1:
-        command = sys.argv[1]
-        if command in bot.COMMANDLIST:
-            output = sys.argv
-            output.pop(0)
-            print( bot.COMMANDLIST[command]( body=output, roomId="0", sender="console", event="command") )
+        commandName = sys.argv[1]
+        input = sys.argv
+        input.pop(0)
+
+        #cc = commandcenter.CommandCenter()
+        bot.theBot.cc.buildList()
+
+        ep = commandcenter.EventPackage()
+        ep.body = input
+        ep.room_id = "0"
+        ep.sender = "console"
+        ep.event = {}
+        ep.command = commandName
+
+        output = bot.theBot.cc.run(ep)
+
+        if len(output) > 0:
+            print(output)
         else:
-            print("command does not exist")
+            print("Command not Found")
     else:
         print("testcommand.py <command> <command arguments>")
 

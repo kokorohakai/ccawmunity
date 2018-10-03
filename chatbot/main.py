@@ -1,32 +1,11 @@
 #!/usr/bin/env python3
-
-# A simple chat client for matrix.
-# This sample will allow you to connect to a room, and send/recieve messages.
-# Args: host:port username password room
-# Error Codes:
-# 1 - Unknown problem has occured
-# 2 - Could not find the server.
-# 3 - Bad URL Format.
-# 4 - Bad username/password.
-# 11 - Wrong room format.
-# 12 - Couldn't find room.
-
-import sys
 import os
 import logging
 import time
 import signal
-import discord
-
-from matrix_client.client import MatrixClient
-from matrix_client.api import MatrixRequestError
-from requests.exceptions import MissingSchema
 
 from functools import partial
 import bot
-from listener import *
-from discordListener import *
-from login import *
 
 def shutdown(self,signum):
     print ("Shutting Down")
@@ -35,34 +14,10 @@ def shutdown(self,signum):
     exit(0)
 
 def main():
-    #parses arguments passed into the application.
-    #We may want to make this a function on it's own that handles this in a single pass, instead of scanning it each time for possible values.
-    if "-q" in sys.argv:
-        f = open(os.devnull, 'w')
-        sys.stdout = f
-    if "-h" in sys.argv or "--help" in sys.argv:
-        print("Usage: chat <options>")
-        print("-q : No standard output")
-        print("-h : Print Help")
-        exit(0)
+    global theBot
+    bot.init()
+    bot.theBot.go();
 
-    #attempt to login.
-    login()
-
-    #if success, start the command listener.
-    for i in bot.rooms:
-        bot.rooms[i].add_listener(listener)
-    bot.matrixClient.start_listener_thread()
-
-    #attempt to connect with discord.
-    if len(bot.config.discord["token"]) > 0:
-        print("discord bot token supplied, attempting to log in.")
-        #for some reason this starts it's own blocking loop.
-        bot.discordClient.run(bot.config.discord["token"])
-
-    #loop forever until a signal is caught. Sleeping between each iteration so it doesn't consume CPU
-    while bot.running:
-        time.sleep(1)#sleeps 1 second
 
 if __name__ == '__main__':
     signal.signal(signal.SIGINT,shutdown)
