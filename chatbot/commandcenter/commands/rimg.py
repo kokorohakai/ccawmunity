@@ -18,7 +18,7 @@ class RimgCommand(Command):
         #prepare the search terms
         searchTerms = event_pack.body
         searchTerms.pop(0)
-        search = "+".join(searchTerms)
+        search = "sfw "+"+".join(searchTerms)
         url = "https://www.google.com/search?tbm=isch&q="+search+"&oq="+search+"&gs_l=img&safesearch=on"
 
         #get the page
