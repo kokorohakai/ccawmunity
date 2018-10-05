@@ -28,7 +28,7 @@ class CommandCenter():
         config = bot.theBot.config
         output = ""
         if eventpackage.command.startswith(config.prefix):
-            eventpackage.command.replace(config.prefix,"")
+            eventpackage.command = eventpackage.command.replace(config.prefix,"")
             if eventpackage.command in self.commandList:
                 try:
                     output = self.commandList[eventpackage.command].run(eventpackage)
