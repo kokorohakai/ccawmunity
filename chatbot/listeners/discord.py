@@ -33,8 +33,8 @@ class Discord():
                 if len(input[0]) > 0:
                     ep = commandcenter.EventPackage()
                     ep.body = input
-                    ep.room_id = message.channel
-                    ep.sender = message.author
+                    ep.room_id = str(message.channel)
+                    ep.sender = str(message.author)
                     ep.event = message
                     ep.command = input[0]
 
