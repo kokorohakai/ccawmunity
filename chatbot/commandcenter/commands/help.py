@@ -7,7 +7,7 @@ class HelpCommand(Command):
         self.name = "help"
         self.help = "1. the command. Prints help for specified command."
         self.author = "Skuld"
-        self.last_updated = "Oct. 3rd, 2018"
+        self.last_updated = "Oct. 3, 2018"
 
     def run(self, event_pack: EventPackage):
         name = event_pack.command

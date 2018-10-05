@@ -7,7 +7,7 @@ class SetCommand(Command):
         self.name = "set"
         self.help = "2. Set A = B. If A is said, B is said in response."
         self.author = "Skuld"
-        self.last_updated = "Oct. 3rd, 2018"
+        self.last_updated = "Oct. 5, 2018"
 
     def run(self, event_pack: EventPackage):
         input = event_pack.body
