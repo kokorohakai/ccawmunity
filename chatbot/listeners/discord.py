@@ -1,10 +1,24 @@
 import discord
 import bot
 from commandcenter import *
+from datetime import *
+from commandcenter.eventpackage import *
 
 class Discord():
     def __init__(self):
         self.discordClient = {}
+
+    async def purge(self, ep:EventPackage ):
+        me = self.discordClient.user
+        def is_me(m):
+            return m.author == me
+
+        when = datetime.utcnow() - timedelta(hours = 1)
+        try:
+            await self.discordClient.purge_from(ep.event.channel,after=when,check=is_me)
+        except discord.Forbidden:
+            return
+            #do nothing with it.
 
     def start(self):
         global theBot
@@ -38,10 +52,13 @@ class Discord():
                     ep.event = message
                     ep.command = input[0]
 
-                    output = bot.theBot.cc.run(ep)
+                    if ep.command == config.prefix+"purge":
+                        await self.purge(ep)
+                    else:
+                        output = bot.theBot.cc.run(ep)
 
-                    if len(output) > 0:
-                        await self.discordClient.send_message( message.channel, output )
+                        if len(output) > 0:
+                            await self.discordClient.send_message( message.channel, output )
 
 
         @self.discordClient.event

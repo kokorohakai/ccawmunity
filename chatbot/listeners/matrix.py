@@ -92,12 +92,16 @@ class Matrix():
                         ep.sender = event["sender"]
                         ep.event = event
                         ep.command = input[0]
+                        if ep.command == config.prefix+"purge":
+                            self.purge(ep)
+                        else:
+                            output = bot.theBot.cc.run(ep)
 
-                        output = bot.theBot.cc.run(ep)
-
-                        # if the command is in our dictionary of functions, use it (from commands.py)
-                        if len(output) > 0:
-                            room.send_text(output)
+                            # if the command is in our dictionary of functions, use it (from commands.py)
+                            if len(output) > 0:
+                                room.send_text(output)
 
         else:
             print(event['type'])
+
+    def purge(self):
