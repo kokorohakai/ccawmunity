@@ -26,8 +26,8 @@ class SetCommand(Command):
                 response = input[1]
                 room = event_pack.room_id
 
-                sqlStr = "SELECT * FROM response WHERE statement = %s LIMIT 1"
-                values = [statement]
+                sqlStr = "SELECT * FROM response WHERE statement = %s AND room = %s LIMIT 1"
+                values = [ statement, room ]
                 cur.execute( sqlStr, values )
                 myresult = cur.fetchall()
 
@@ -57,8 +57,8 @@ class SetCommand(Command):
         room = event_pack.room_id
 
         cur = bot.theBot.mydb.cursor()
-        sqlStr = "SELECT * FROM response WHERE statement = %s LIMIT 1"
-        values = [statement]
+        sqlStr = "SELECT * FROM response WHERE statement = %s AND room = %s LIMIT 1"
+        values = [ statement, room ]
         cur.execute( sqlStr, values )
         myresult = cur.fetchall()
 
