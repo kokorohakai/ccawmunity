@@ -68,11 +68,7 @@ class Matrix():
         global theBot
         config = bot.theBot.config
 
-        if event['type'] == "m.room.member":
-            if event['membership'] == "join":
-                True
-                #print("{0} joined".format(event['content']['displayname']))
-        elif event['type'] == "m.room.message":
+        if event['type'] == "m.room.message":
             if event['content']['msgtype'] == "m.text":
                 #print("{0}: {1}".format(event['sender'], event['content']['body']))
 
@@ -90,21 +86,18 @@ class Matrix():
                 # create responses for messages starting with prefix
                 if len(input) > 0:
                     if len(input[0]) > 0:
-                        if input[0][0] == config.prefix:
-                            command = input[0][1:]
+                        ep = commandcenter.EventPackage()
+                        ep.body = input
+                        ep.room_id = event["room_id"]
+                        ep.sender = event["sender"]
+                        ep.event = event
+                        ep.command = input[0]
 
-                            ep = commandcenter.EventPackage()
-                            ep.body = input
-                            ep.room_id = event["room_id"]
-                            ep.sender = event["sender"]
-                            ep.event = event
-                            ep.command = command
+                        output = bot.theBot.cc.run(ep)
 
-                            output = bot.theBot.cc.run(ep)
-
-                            # if the command is in our dictionary of functions, use it (from commands.py)
-                            if len(output) > 0:
-                                room.send_text(output)
+                        # if the command is in our dictionary of functions, use it (from commands.py)
+                        if len(output) > 0:
+                            room.send_text(output)
 
         else:
             print(event['type'])

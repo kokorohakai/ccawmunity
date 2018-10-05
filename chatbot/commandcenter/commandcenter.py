@@ -2,6 +2,7 @@ import sys
 import inspect
 import commandcenter.commands
 from commandcenter.eventpackage import *
+import bot
 
 class CommandCenter():
     def __init__(self):
@@ -24,13 +25,16 @@ class CommandCenter():
                     print( "Malformed Command: "+commandName+" could not find class named "+classname)
 
     def run(self, eventpackage: EventPackage):
+        config = bot.theBot.config
         output = ""
-        if eventpackage.command in self.commandList:
-            try:
-                output = self.commandList[eventpackage.command].run(eventpackage)
-            except Exception as e:
-                print(e)
-                output = "This command failed to execute"
+        if eventpackage.command.startswith(config.prefix):
+            eventpackage.command.replace(config.prefix,"")
+            if eventpackage.command in self.commandList:
+                try:
+                    output = self.commandList[eventpackage.command].run(eventpackage)
+                except Exception as e:
+                    print(e)
+                    output = "This command failed to execute"
         else:
             output = self.commandList["set"].check(eventpackage);
 

@@ -51,7 +51,9 @@ class SetCommand(Command):
         return output
 
     def check(str, event_pack: EventPackage):
-        statement = event_pack.body[0].lower();
+        input = event_pack.body
+        statement = " ".join(input).strip().lower();
+
         room = event_pack.room_id
 
         cur = bot.theBot.mydb.cursor()

@@ -31,20 +31,17 @@ class Discord():
             # create responses for messages starting with prefix
             if len(input) > 0:
                 if len(input[0]) > 0:
-                    if input[0][0] == config.prefix:
-                        command = input[0][1:]
+                    ep = commandcenter.EventPackage()
+                    ep.body = input
+                    ep.room_id = message.channel
+                    ep.sender = message.author
+                    ep.event = message
+                    ep.command = input[0]
 
-                        ep = commandcenter.EventPackage()
-                        ep.body = input
-                        ep.room_id = message.channel
-                        ep.sender = message.author
-                        ep.event = message
-                        ep.command = command
+                    output = bot.theBot.cc.run(ep)
 
-                        output = bot.theBot.cc.run(ep)
-
-                        if len(output) > 0:
-                            await self.discordClient.send_message( message.channel, output )
+                    if len(output) > 0:
+                        await self.discordClient.send_message( message.channel, output )
 
 
         @self.discordClient.event
