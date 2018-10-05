@@ -105,3 +105,4 @@ class Matrix():
             print(event['type'])
 
     def purge(self):
+        return
