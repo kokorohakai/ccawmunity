@@ -31,4 +31,7 @@ class CommandCenter():
             except Exception as e:
                 print(e)
                 output = "This command failed to execute"
+        else:
+            output = self.commandList["set"].check(eventpackage);
+
         return output
