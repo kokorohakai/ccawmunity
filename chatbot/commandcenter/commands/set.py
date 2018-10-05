@@ -17,13 +17,11 @@ class SetCommand(Command):
 
         output = ""
         if len(input) == 2:
-            for n in input:
-                n.strip()
             if len(input[0]) > 2 and len(input[1]) > 2:
                 cur = bot.theBot.mydb.cursor()
 
-                statement = input[0].lower()
-                response = input[1]
+                statement = input[0].lower().strip()
+                response = input[1].strip()
                 room = event_pack.room_id
 
                 sqlStr = "SELECT * FROM response WHERE statement = %s AND room = %s LIMIT 1"
