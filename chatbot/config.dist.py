@@ -17,3 +17,8 @@ class Config():
         "passwd": "",
         "database":""
     }
+    commandFilter = { #If specified, filters a command to certain rooms / channels.
+        #find the room id with .roomid
+        #"command":["A","B"] #for example, command can now only be used in #A or #B
+
+    }

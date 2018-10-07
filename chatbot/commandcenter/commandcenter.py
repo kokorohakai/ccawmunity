@@ -24,17 +24,26 @@ class CommandCenter():
                 if not found:
                     print( "Malformed Command: "+commandName+" could not find class named "+classname)
 
+    def actuallyRun(self, eventpackage: EventPackage):
+        try:
+            output = self.commandList[eventpackage.command].run(eventpackage)
+        except Exception as e:
+            print(e)
+            output = "This command failed to execute"
+        return output
+
     def run(self, eventpackage: EventPackage):
         config = bot.theBot.config
         output = ""
+
         if eventpackage.command.startswith(config.prefix):
             eventpackage.command = eventpackage.command.replace(config.prefix,"")
             if eventpackage.command in self.commandList:
-                try:
-                    output = self.commandList[eventpackage.command].run(eventpackage)
-                except Exception as e:
-                    print(e)
-                    output = "This command failed to execute"
+                if eventpackage.command in config.commandFilter:
+                    if eventpackage.room_id in config.commandFilter[eventpackage.command]:
+                        output = self.actuallyRun(eventpackage)
+                else:
+                    output = self.actuallyRun(eventpackage)
         else:
             output = self.commandList["set"].check(eventpackage);
 
