@@ -187,6 +187,7 @@ class CalculateCommand(Command):
     def parseFormula(self, formula):
         def addMathCmd():
             nonlocal buf
+            nonlocal arr
             cmd = buf.strip().lower()
             if cmd in self.mathCmds:
                 arr.append(cmd)
@@ -195,6 +196,7 @@ class CalculateCommand(Command):
 
         def addNumber():
             nonlocal buf
+            nonlocal arr
             arr.append(float(buf))
             buf=""
             return
