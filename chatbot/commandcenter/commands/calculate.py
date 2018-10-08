@@ -186,6 +186,10 @@ class CalculateCommand(Command):
         return arr[0]
 
     def parseFormula(self, formula):
+        buf = ""
+        arr = []
+        n = 0
+
         def addMathCmd():
             nonlocal buf
             nonlocal arr
@@ -202,9 +206,6 @@ class CalculateCommand(Command):
             buf=""
             return
 
-        n = 0
-        buf = ""
-        arr = []
         while n < len(formula):
             c = formula[n]
 
@@ -252,8 +253,6 @@ class CalculateCommand(Command):
         return (arr,n)
 
     def run(self, event_pack: EventPackage):
-        nonlocal buf
-        nonlocal arr
         buf = ""
         arr = []
         self.state = self.CHARINPUT
