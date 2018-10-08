@@ -1,5 +1,6 @@
 from ..command import Command
 from ..eventpackage import EventPackage
+import math
 
 class CalculateCommand(Command):
     #constants
@@ -12,10 +13,7 @@ class CalculateCommand(Command):
         "cos",
         "sin",
         "tan",
-        "csc",
-        "sec",
         "abs",
-        "cotan"
     ]
     mathSymbols = [
         "+",
@@ -34,7 +32,6 @@ class CalculateCommand(Command):
         self.last_updated = "Oct. 08, 2018"
         self.state = self.CHARINPUT
         self.mathArr = []
-        self.buf = ""
         self.error = ""
 
     def isNumber(self,c):
@@ -46,9 +43,66 @@ class CalculateCommand(Command):
             output = True
         return output
 
-    def calcArray(self,arr):
+    def doMathCmd(self, arr, n, s):
+        #print("do math cmd:", arr, n, s)
+        s = s + 1
+        inv = 0
+        outv = 0
+        if n+1 > len(arr):
+             return ( "error", s )
+        if arr[n+1] in self.mathCmds:
+             ret = doMathCmd( arr, n+1, s)
+             inv = ret[0]
+             s = ret[1]
+        else:
+             inv = arr[n+1]
+        #do the math coommand.
+        if arr[n] == "sqrt":
+            outv = math.sqrt(inv)
+        elif arr[n] == "cos":
+            outv = math.cos(inv)
+        elif arr[n] == "sin":
+            outv = math.cos(inv)
+        elif arr[n] == "tan":
+            outv = math.cos(inv)
 
-        #1st pass for ^
+        return (outv,s)
+
+    def calcArray(self,arr):
+        #print("1st pass", arr)
+        #pass to make negative numbers:
+        arrb = []
+        n = 0
+        while n < len(arr):
+            if arr[n] == '-':
+                if n + 1 <= len(arr):
+                    v = 0 - arr[n+1]
+                    arrb.append(v)
+                    n=n+2
+                else:
+                    return "ERROR"
+            else:
+                arrb.append(arr[n])
+                n=n+1
+        arr = arrb
+
+        #print("next pass:", arr)
+        #pass for math commands
+        arrb = []
+        n = 0
+        while n < len(arr):
+            cmd = arr[n]
+            if cmd in self.mathCmds:
+                res = self.doMathCmd( arr, n, 0 )
+                arrb.append(res[0])
+                n = n + res[1] + 1
+            else:
+                arrb.append( cmd )
+                n = n + 1
+        arr = arrb
+
+        #print("next pass:", arr)
+        #pass for ^
         arrb = []
         n = 0
         while n < len( arr ):
@@ -67,7 +121,8 @@ class CalculateCommand(Command):
                 n=n+1
         arr = arrb
 
-        #2nd pass for * and /
+        #print("next pass:", arr)
+        #pass for * and /
         arrb = []
         n = 0
         while n < len( arr ):
@@ -96,7 +151,8 @@ class CalculateCommand(Command):
                 n=n+1
         arr = arrb
 
-        #final pass for + and -
+        #print("next pass:", arr)
+        #pass for + and -
         arrb = []
         n = 0
         while n < len( arr ):
@@ -110,37 +166,41 @@ class CalculateCommand(Command):
                     return
                 arrb[m] = arrb[m] + arr[n+1]
                 n=n+2
-            elif arr[n] == '-':
+            elif arr[n] < 0: #subtraction was converted to negative numbers
                 m = len(arrb) - 1
-                if m < 0:
-                    self.error = "Error before -"
-                    return
-                if n+1 > len(arr):
-                    self.error = "Error at -"
-                    return
-                arrb[m] = arrb[m] - arr[n+1]
-                n=n+2
+                if m >= 0:
+                    if n+1 > len(arr):
+                        self.error = "Error at -"
+                        return
+                    arrb[m] = arrb[m] + arr[n]
+                    n=n+1
+                else:
+                    arrb.append(arr[n])
+                    n=n+1
             else:
                 arrb.append(arr[n])
                 n=n+1
         arr = arrb
+
         return arr[0]
 
     def parseFormula(self, formula):
         def addMathCmd():
-            cmd = self.buf.strip().lower()
+            nonlocal buf
+            cmd = buf.strip().lower()
             if cmd in self.mathCmds:
                 arr.append(cmd)
-            self.buf=""
+            buf=""
             return
 
         def addNumber():
-            arr.append(float(self.buf))
-            self.buf=""
+            nonlocal buf
+            arr.append(float(buf))
+            buf=""
             return
 
         n = 0
-        self.buf=""
+        buf = ""
         arr = []
         while n < len(formula):
             c = formula[n]
@@ -154,11 +214,11 @@ class CalculateCommand(Command):
                     self.state = self.MATHINPUT
                 else:
                     n=n+1;
-                    self.buf+=c;
+                    buf+=c;
 
             elif self.state == self.NUMINPUT:
                 if self.isNumber(c):
-                    self.buf = self.buf+c
+                    buf = buf+c
                     n=n+1
                 else:
                     addNumber()
@@ -173,11 +233,11 @@ class CalculateCommand(Command):
                         arr.append(self.calcArray(ret[0]))
                         n = n + ret[1] + 2
                     elif c == ")":
-                        self.state = self.CHARINPUT
+                        self.state = self.NUMINPUT
                         return (arr,n)
                     else:
                         arr.append(c)
-                        n=n+1
+                        n = n + 1
                     self.state = self.CHARINPUT
                 else:
                     self.state = self.CHARINPUT
@@ -199,7 +259,6 @@ class CalculateCommand(Command):
 
         try:
             self.mathArr = self.parseFormula(formula)[0]
-            #print(self.mathArr)
             output = self.calcArray(self.mathArr)
         except Exception as e:
             output = e
