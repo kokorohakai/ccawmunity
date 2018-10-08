@@ -12,15 +12,3 @@ class Command():
 
     def run(self, eventpackage: EventPackage):
         return "This command doesn't have an implementation yet!"
-
-    def get_name(self):
-        return str(self.name)
-
-    def get_help(self):
-        return str(self.help)
-
-    def get_author(self):
-        return str(self.author)
-
-    def get_last_updated(self):
-        return str(self.last_updated)
