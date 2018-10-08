@@ -10,10 +10,25 @@ class CalculateCommand(Command):
 
     mathCmds = [
         "sqrt",
+        "ceil",
+        "floor",
+        "deg",
+        "rad",
+        "abs",
+        "exp",
+        "log",
         "cos",
         "sin",
         "tan",
-        "abs",
+        "acos",
+        "asin",
+        "atan",
+        "cosh",
+        "sinh",
+        "tanh",
+        "acosh",
+        "asinh",
+        "atanh"
     ]
     mathSymbols = [
         "+",
@@ -22,7 +37,8 @@ class CalculateCommand(Command):
         "/",
         "^",
         "(",
-        ")"
+        ")",
+        "%"
     ]
 
     def __init__(self):
@@ -60,12 +76,45 @@ class CalculateCommand(Command):
         #do the math coommand.
         if arr[n] == "sqrt":
             outv = math.sqrt(inv)
+        elif arr[n] == "ceil":
+            outv = math.ceil(inv)
+        elif arr[n] == "floor":
+            outv = math.floor(inv)
+        elif arr[n] == "deg":
+            outv = math.degrees(inv)
+        elif arr[n] == "rad":
+            outv = math.radians(inv)
+        elif arr[n] == "abs":
+            outv = math.fabs(inv)
+        elif arr[n] == "exp":
+            outv = math.exp(inv)
+        elif arr[n] == "log":
+            outv = math.log(inv)
+        #so much trig
         elif arr[n] == "cos":
             outv = math.cos(inv)
         elif arr[n] == "sin":
-            outv = math.cos(inv)
+            outv = math.sin(inv)
         elif arr[n] == "tan":
-            outv = math.cos(inv)
+            outv = math.tan(inv)
+        elif arr[n] == "acos":
+            outv = math.acos(inv)
+        elif arr[n] == "asin":
+            outv = math.asin(inv)
+        elif arr[n] == "atan":
+            outv = math.atan(inv)
+        elif arr[n] == "cosh":
+            outv = math.cosh(inv)
+        elif arr[n] == "sinh":
+            outv = math.sinh(inv)
+        elif arr[n] == "tanh":
+            outv = math.tanh(inv)
+        elif arr[n] == "acosh":
+            outv = math.acosh(inv)
+        elif arr[n] == "asinh":
+            outv = math.asinh(inv)
+        elif arr[n] == "atanh":
+            outv = math.atanh(inv)
 
         return (outv,s)
 
@@ -123,7 +172,7 @@ class CalculateCommand(Command):
         arr = arrb
 
         #print("next pass:", arr)
-        #pass for * and /
+        #pass for *, / and %
         arrb = []
         n = 0
         while n < len( arr ):
@@ -146,6 +195,16 @@ class CalculateCommand(Command):
                     self.error = "Error at /"
                     return
                 arrb[m] = arrb[m] / arr[n+1]
+                n=n+2
+            elif arr[n] == '%':
+                m = len(arrb) - 1
+                if m < 0:
+                    self.error = "Error before %"
+                    return
+                if n+1 > len(arr):
+                    self.error = "Error at %"
+                    return
+                arrb[m] = fmod( arrb[m], arr[n+1] )
                 n=n+2
             else:
                 arrb.append(arr[n])
@@ -196,6 +255,12 @@ class CalculateCommand(Command):
             cmd = buf.strip().lower()
             if cmd in self.mathCmds:
                 arr.append(cmd)
+            elif cmd == "pi":
+                res = math.pi
+                arr.append( res )
+            elif cmd == "e":
+                res = math.e
+                arr.append( res )
             buf=""
             return
 
