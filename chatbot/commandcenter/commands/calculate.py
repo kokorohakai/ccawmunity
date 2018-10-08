@@ -30,6 +30,7 @@ class CalculateCommand(Command):
         self.help = "1. string of math to calculate."
         self.author = "skuld"
         self.last_updated = "Oct. 08, 2018"
+
         self.state = self.CHARINPUT
         self.mathArr = []
         self.error = ""
@@ -251,6 +252,14 @@ class CalculateCommand(Command):
         return (arr,n)
 
     def run(self, event_pack: EventPackage):
+        nonlocal buf
+        nonlocal arr
+        buf = ""
+        arr = []
+        self.state = self.CHARINPUT
+        self.mathArr = []
+        self.error = ""
+
         output = ""
 
         farr = event_pack.body
