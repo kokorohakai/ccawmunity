@@ -55,8 +55,9 @@ class QuoteCommand(Command):
         output = "Could not find a quote by that user."
 
         cur = bot.theBot.mydb.cursor()
-        sqlStr = "select count(*) FROM quotes"
-        cur.execute( sqlStr )
+        sqlStr = "select count(*) FROM quotes WHERE user = %s"
+        value = [ user ]
+        cur.execute( sqlStr, value )
         myresult = cur.fetchall()
         n = random.randint( 0, myresult[0][0]-1 )
 
