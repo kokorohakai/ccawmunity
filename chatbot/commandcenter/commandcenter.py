@@ -61,12 +61,10 @@ class CommandCenter():
         offensive = True
 
         while offensive and tries < 5:
-            print("Check command:")
             newep = copy.copy(eventpackage)
             newep.event = copy.copy(eventpackage.event)
             newep.body = copy.copy(eventpackage.body)
 
-            print(newep.command)
             if newep.command.startswith(config.prefix):
                 newep.command = newep.command.replace(config.prefix,"")
                 if newep.command in self.commandList:
@@ -81,7 +79,6 @@ class CommandCenter():
             else:
                 output = self.commandList["set"].check(newep);
 
-            print(output)
             offensive = self.checkOffensive(output)
             tries = tries + 1
 
