@@ -119,6 +119,9 @@ class CalculateCommand(Command):
         return (outv,s)
 
     def calcArray(self,arr):
+        #somewhere in this it needs to determine things like:
+        # 2pi and 2(2) as 2*pi and 2*(2)
+
         #print("1st pass", arr)
         #pass to make negative numbers:
         arrb = []

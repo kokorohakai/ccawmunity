@@ -74,7 +74,6 @@ class SetCommand(Command):
         room TEXT,
         statement TEXT,
         response TEXT,
-        UNIQUE KEY SHA2(statement),
         PRIMARY KEY (id)
     );
 '''
