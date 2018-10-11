@@ -19,8 +19,6 @@ class QuoteCommand(Command):
 
         cur = bot.theBot.mydb.cursor()
 
-        print(user,quote)
-
         sqlStr = "SELECT * FROM quotes WHERE user = %s and quote = %s LIMIT 1"
         values = [ user, quote ]
         cur.execute( sqlStr, values )
@@ -63,7 +61,6 @@ class QuoteCommand(Command):
         n = random.randint( 0, myresult[0][0]-1 )
 
         sqlStr = 'SELECT id,quote FROM quotes WHERE user = %s LIMIT ' + str(n) + ',1'
-        print( sqlStr )
         values = [ user ]
         cur.execute( sqlStr, values )
         myresult = cur.fetchall()
