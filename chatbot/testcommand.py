@@ -14,7 +14,7 @@ def main():
 
     if len(sys.argv) > 1:
         bot.theBot.dbConnect()
-        
+
         commandName = sys.argv[1]
         input = sys.argv
         input.pop(0)

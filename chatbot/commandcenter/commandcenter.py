@@ -3,6 +3,7 @@ import inspect
 import commandcenter.commands
 from commandcenter.eventpackage import *
 import bot
+import copy
 
 class CommandCenter():
     def __init__(self):
@@ -47,8 +48,7 @@ class CommandCenter():
         l = len(checklist)
         while n < l:
             offend = " " + checklist[n][1] + " "
-
-            if offend in output:
+            if offend in check:
                 return True
             n = n + 1
         return False
@@ -60,22 +60,30 @@ class CommandCenter():
         tries = 0
         offensive = True
 
-        if eventpackage.command.startswith(config.prefix):
-            while offensive and tries < 5:
-                eventpackage.command = eventpackage.command.replace(config.prefix,"")
-                if eventpackage.command in self.commandList:
-                    if eventpackage.command in config.commandFilter:
-                        if eventpackage.room_id in config.commandFilter[eventpackage.command]:
-                            output = self.actuallyRun(eventpackage)
+        while offensive and tries < 5:
+            print("Check command:")
+            newep = copy.copy(eventpackage)
+            newep.event = copy.copy(eventpackage.event)
+            newep.body = copy.copy(eventpackage.body)
+
+            print(newep.command)
+            if newep.command.startswith(config.prefix):
+                newep.command = newep.command.replace(config.prefix,"")
+                if newep.command in self.commandList:
+                    if newep.command in config.commandFilter:
+                        if newep.room_id in config.commandFilter[newep.command]:
+                            output = self.actuallyRun(newep)
                     else:
-                        output = self.actuallyRun(eventpackage)
-                offensive = self.checkOffensive(output)
-                tries=tries+1
-        else:
-            while offensive and tries < 5:
-                output = self.commandList["set"].check(eventpackage);
-                offensive = self.checkOffensive(output)
-                tries=tries+1
+                        output = self.actuallyRun(newep)
+                else:
+                    offensive = False
+                    output = ""
+            else:
+                output = self.commandList["set"].check(newep);
+
+            print(output)
+            offensive = self.checkOffensive(output)
+            tries = tries + 1
 
         if offensive:
             output = "I am forbidden to say the result of that command."
