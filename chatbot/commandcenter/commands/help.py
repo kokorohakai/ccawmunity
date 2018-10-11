@@ -10,7 +10,9 @@ class HelpCommand(Command):
         self.last_updated = "Oct. 3, 2018"
 
     def run(self, event_pack: EventPackage):
-        name = event_pack.command
+        name = ""
+        if len(event_pack.body) > 1:
+            name = event_pack.body[1]
         if name in bot.theBot.cc.commandList:
             output = bot.theBot.cc.commandList[name].help
         else:
