@@ -7,9 +7,9 @@ class RandomCommand(Command):
     def __init__(self):
         self.name = "random"
         self.help = "random: random number from 0 to 100\n"
-        self.help += "random n: random number from 0 to n\n"
-        self.help += "random m n: random number mfrom m to n\n"
-        self.help += "random m n t: t random numbers from m to n\n"
+        self.help = self.help + "random n: random number from 0 to n\n"
+        self.help = self.help + "random m n: random number mfrom m to n\n"
+        self.help = self.help + "random m n t: t random numbers from m to n\n"
         self.author = "skuld"
         self.last_updated = "Oct. 3, 2018"
 

@@ -7,10 +7,10 @@ import bot
 class QuoteCommand(Command):
     def __init__(self):
         self.name = "Quote"
-        self.help = "1. Prints a random quote\n" +
-                    "2. user. Prints a random quote by the supplied user.\n" +
-                    "3. remove, id. Removes a quote by id." +
-                    "4. add, user, quote. Adds a quote for user.\n"
+        self.help = "1. Prints a random quote\n"
+        self.help = self.help + "2. user. Prints a random quote by the supplied user.\n"
+        self.help = self.help + "3. remove, id. Removes a quote by id.\n"
+        self.help = self.help + "4. add, user, quote. Adds a quote for user.\n"
         self.author = "skuld"
         self.last_updated = "Oct. 11, 2018"
 
