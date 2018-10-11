@@ -22,3 +22,6 @@ class Config():
         #"command":["A","B"] #for example, command can now only be used in #A or #B
 
     }
+    admins=[ #the admin list, make sure to add your users from both matrix and discord.
+            ""
+    ]

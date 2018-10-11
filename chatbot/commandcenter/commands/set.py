@@ -21,6 +21,8 @@ class SetCommand(Command):
                 cur = bot.theBot.mydb.cursor()
 
                 statement = input[0].lower().strip()
+                statement = bot.theBot.stripPunc(statement)
+
                 response = input[1].strip()
                 room = event_pack.room_id
 
@@ -51,6 +53,7 @@ class SetCommand(Command):
     def check(str, event_pack: EventPackage):
         input = event_pack.body
         statement = " ".join(input).strip().lower();
+        statement = bot.theBot.stripPunc(statement)
 
         room = event_pack.room_id
 

@@ -6,6 +6,7 @@ from matrix_client.client import MatrixClient
 from commandcenter import *
 import listeners
 import mysql.connector
+import re
 
 class Bot():
     def __init__(self):
@@ -30,6 +31,10 @@ class Bot():
             print("-h : Print Help")
             exit(0)
         return
+
+    def stripPunc(self,inStr):
+        outStr = re.sub(r'[\?\.\(\)\!\*\+\=\'\"\^\&\$\#\@\%]',"",inStr)
+        return outStr
 
     def dbConnect(self):
         if len(self.config.mysql["host"]) > 0:

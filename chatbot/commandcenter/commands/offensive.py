@@ -53,18 +53,22 @@ class OffensiveCommand(Command):
         return output
 
     def run(self, event_pack: EventPackage):
-        #I need some way to check if this command is from an admin.
-        output = self.help
-        if len( event_pack.body ) > 2:
-            command = event_pack.body[1].lower()
-            phraseA = event_pack.body
-            phraseA.pop(0)
-            phraseA.pop(0)
-            phrase = " ".join(phraseA)
+        if event_pack.sender in bot.theBot.config.admins:
+            #I need some way to check if this command is from an admin.
+            output = self.help
+            if len( event_pack.body ) > 2:
+                command = event_pack.body[1].lower()
+                phraseA = event_pack.body
+                phraseA.pop(0)
+                phraseA.pop(0)
+                phrase = " ".join(phraseA).lower().strip()
+                phrase = bot.theBot.stripPunc(phrase)
 
-            if command == "add":
-                output = self.add(phrase)
-            if command == "remove":
-                output = self.remove(phrase)
+                if command == "add":
+                    output = self.add(phrase)
+                if command == "remove":
+                    output = self.remove(phrase)
+        else:
+            output = "You do not have permission to use this command."
 
         return output
