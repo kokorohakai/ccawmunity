@@ -12,7 +12,6 @@ class HugCommand(Command):
     def run(self, event_pack: EventPackage):
         output = ""
         sender = event_pack.sender
-        print(sender)
         if len(event_pack.body) == 1:
             output = "* "+bot.theBot.config.matrix["username"]+" hugs "+sender+"\n"
         elif len(event_pack.body) >= 2:
