@@ -207,7 +207,7 @@ class CalculateCommand(Command):
                 if n+1 > len(arr):
                     self.error = "Error at %"
                     return
-                arrb[m] = fmod( arrb[m], arr[n+1] )
+                arrb[m] = math.fmod( arrb[m], arr[n+1] )
                 n=n+2
             else:
                 arrb.append(arr[n])
