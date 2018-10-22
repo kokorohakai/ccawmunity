@@ -1,5 +1,7 @@
 import discord
 import bot
+import threading
+
 from commandcenter import *
 from datetime import *
 from commandcenter.eventpackage import *
@@ -19,6 +21,17 @@ class Discord():
         except discord.Forbidden:
             return
             #do nothing with it.
+
+    def listenerThread(self, client):
+        global theBot
+        config = bot.theBot.config
+
+        #attempt to connect with discord.
+        if len(config.discord["token"]) > 0:
+            print("discord bot token supplied, attempting to log in.")
+            #for some reason this starts it's own blocking loop.
+            self.discordClient.run(config.discord["token"])
+        return
 
     def start(self):
         global theBot
@@ -68,12 +81,5 @@ class Discord():
             print("  "+self.discordClient.user.id)
 
     def connect(self):
-        global theBot
-        config = bot.theBot.config
-
-        #attempt to connect with discord.
-        if len(config.discord["token"]) > 0:
-            print("discord bot token supplied, attempting to log in.")
-            #for some reason this starts it's own blocking loop.
-            self.discordClient.run(config.discord["token"])
+        threading.Thread( target=self.listenerThread, args=(self.discordClient,)).start()
         return

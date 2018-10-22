@@ -49,6 +49,9 @@ class Bot():
             except:
                 print("Could not connect to database.")
 
+    def checkDBConnect(self):
+        if not self.mydb.is_connected():
+            self.mydb.reconnect()
 
     def go(self):
         self.cc.buildList()

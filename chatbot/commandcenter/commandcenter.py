@@ -57,6 +57,8 @@ class CommandCenter():
         config = bot.theBot.config
         output = ""
 
+        bot.theBot.checkDBConnect()
+
         tries = 0
         offensive = True
 
