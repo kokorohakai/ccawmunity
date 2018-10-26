@@ -11,10 +11,10 @@ class HelpCommand(Command):
 
     def run(self, event_pack: EventPackage):
         name = ""
+        output = self.help
+
         if len(event_pack.body) > 1:
             name = event_pack.body[1]
         if name in bot.theBot.cc.commandList:
             output = bot.theBot.cc.commandList[name].help
-        else:
-            output = "Command does not exist"
         return output
