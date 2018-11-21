@@ -33,7 +33,17 @@ class Bot():
         return
 
     def stripPunc(self,inStr):
-        outStr = re.sub(r'[\?\.\(\)\!\*\+\=\'\"\^\&\$\#\@\%]',"",inStr)
+        outStr = ""
+        for c in inStr:
+            n = ord(c)
+            if n > 96 and n < 122:
+                outStr = outStr + c
+            elif n > 64 and n < 91:
+                outStr = outStr + c
+            elif n > 47 and n < 58:
+                outStr = outStr + c
+
+        #outStr = re.sub(r'[\?\.\(\)\!\*\+\=\'\"\^\&\$\#\@\%]',"",inStr)
         return outStr
 
     def dbConnect(self):

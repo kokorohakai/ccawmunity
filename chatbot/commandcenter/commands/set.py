@@ -17,11 +17,11 @@ class SetCommand(Command):
 
         output = ""
         if len(input) == 2:
-            if len(input[0]) > 2 and len(input[1]) > 2:
-                cur = bot.theBot.mydb.cursor()
+            statement = input[0].lower().strip()
+            statement = bot.theBot.stripPunc(statement)
 
-                statement = input[0].lower().strip()
-                statement = bot.theBot.stripPunc(statement)
+            if len(statement) > 2 and len(input[1]) > 2:
+                cur = bot.theBot.mydb.cursor()
 
                 response = input[1].strip()
                 room = event_pack.room_id

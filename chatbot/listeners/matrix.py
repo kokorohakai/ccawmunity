@@ -54,6 +54,9 @@ class Matrix():
                 else:
                     print("Couldn't find room:"+room)
                     sys.exit(12)
+    def eatMe( self, exception ):
+        print ("An Error occured, ignoring")
+        return
 
     def listen(self):
         global theBot
@@ -62,6 +65,7 @@ class Matrix():
         #if success, start the command listener.
         for i in self.rooms:
             self.rooms[i].add_listener(self.listener)
+        self.matrixClient.listen_forever(exception_handler = self.eatMe);
         self.matrixClient.start_listener_thread()
 
     def listener(self, room, event):
@@ -77,7 +81,7 @@ class Matrix():
                     return
 
                 #built in auto response to mention.
-                if ( config.matrix["username"]+":" in event['content']['body']):
+                if ( config.matrix["username"] + ":" in event['content']['body']):
                     room.send_text("Hi! I am a bot. If you want to know my commands type \""+config.prefix+"commands\" for available commands")
 
                 # split the string to commands

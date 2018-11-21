@@ -9,6 +9,8 @@ import bot
 
 def shutdown(self,signum):
     print ("Shutting Down")
+    global theBot
+    bot.theBot.discord.disconnect()
     bot.running = False
     time.sleep(1)
     exit(0)

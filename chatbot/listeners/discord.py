@@ -83,3 +83,8 @@ class Discord():
     def connect(self):
         threading.Thread( target=self.listenerThread, args=(self.discordClient,)).start()
         return
+
+    def disconnect(self):
+        #holy crap, it works.
+        client = discord.Client()
+        client.close();
