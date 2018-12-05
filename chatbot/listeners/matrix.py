@@ -1,3 +1,4 @@
+import sys
 from matrix_client.client import MatrixClient
 from matrix_client.api import MatrixRequestError
 from requests.exceptions import MissingSchema
@@ -108,5 +109,5 @@ class Matrix():
         else:
             print(event['type'])
 
-    def purge(self):
+    def purge(self, event ):
         return
