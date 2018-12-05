@@ -36,6 +36,7 @@ class Discord():
     def start(self):
         global theBot
         config = bot.theBot.config
+        print("Starting Discord.")
 
         self.discordClient = discord.Client()
 

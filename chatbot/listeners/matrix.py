@@ -66,7 +66,7 @@ class Matrix():
         #if success, start the command listener.
         for i in self.rooms:
             self.rooms[i].add_listener(self.listener)
-        self.matrixClient.listen_forever(exception_handler = self.eatMe);
+        #self.matrixClient.listen_forever(exception_handler = self.eatMe);
         self.matrixClient.start_listener_thread()
 
     def listener(self, room, event):
