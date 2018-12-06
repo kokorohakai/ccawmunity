@@ -13,7 +13,7 @@ class RjpCommand(Command):
 
     def getRandom(self):
         cur = bot.theBot.jpdb.cursor()
-        sqlStr = "select `entry_id` from `entry-tag` where `tag_id` != 0 order by rand() limit 1"
+        sqlStr = "select `entry_id` from `entry-tag` order by rand() limit 1"
         cur.execute( sqlStr )
         results = cur.fetchall()
         id = results[0][0]
