@@ -33,10 +33,12 @@ class RjpCommand(Command):
         cur.execute(sqlStr,[id])
         tags = cur.fetchall()
 
-
-        output = definition[11] + " (" + definition[8] + ") "
+        if definition[11] == None:
+            output = definition[8]
+        else:
+            output = definition[11] + " (" + definition[8] + ") "
         for i in tags:
-            ouput = output + i[4] + ", " + i[5]
+            output = output + i[4] + ", " + i[5]
         output = output + definition[4]
 
         return output
