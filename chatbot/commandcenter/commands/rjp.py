@@ -38,7 +38,7 @@ class RjpCommand(Command):
         else:
             output = definition[11] + " (" + definition[8] + ") "
         for i in tags:
-            output = output + i[4] + ", " + i[5]
+            output = output + i[4] + ", " + i[5] + " "
         output = output + definition[4]
 
         return output

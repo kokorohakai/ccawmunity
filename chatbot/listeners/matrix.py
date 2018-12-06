@@ -55,7 +55,8 @@ class Matrix():
                 else:
                     print("Couldn't find room:"+room)
                     sys.exit(12)
-    def eatMe( self, exception ):
+    def handleException( self, exception ):
+        print ( exception )
         print ("An Error occured, ignoring")
         return
 
@@ -65,9 +66,9 @@ class Matrix():
 
         #if success, start the command listener.
         for i in self.rooms:
-            self.rooms[i].add_listener(self.listener)
+            self.rooms[i].add_listener(self.listener )
         #self.matrixClient.listen_forever(exception_handler = self.eatMe);
-        self.matrixClient.start_listener_thread()
+        self.matrixClient.start_listener_thread( exception_handler = self.handleException )
 
     def listener(self, room, event):
         global theBot
