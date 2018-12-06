@@ -73,6 +73,8 @@ class CommandCenter():
                     if newep.command in config.commandFilter:
                         if newep.room_id in config.commandFilter[newep.command]:
                             output = self.actuallyRun(newep)
+                        #else:
+                            #output = newep.command + " " + "not allowed."
                     else:
                         output = self.actuallyRun(newep)
                 else:

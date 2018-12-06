@@ -16,6 +16,7 @@ class Config():
         "user": "",
         "passwd": "",
         "database":""
+        "jp-database":""#only required for the rjp command.
     }
     commandFilter = { #If specified, filters a command to certain rooms / channels.
         #find the room id with .roomid

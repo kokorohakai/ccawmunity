@@ -34,9 +34,9 @@ def main():
         if len(output) > 0:
             print(output)
         else:
-            print("Command not Found")
+            print("Command not Found, did you remember to still add the prefix?")
     else:
-        print("testcommand.py <command> <command arguments>")
+        print("testcommand.py <prefix><command> <command arguments>")
 
 if __name__ == '__main__':
     main()

@@ -21,6 +21,7 @@ class Bot():
         self.discord = listeners.Discord()
 
         self.mydb = {}
+        self.jpdb = {}
 
         if "-q" in sys.argv:
             f = open(os.devnull, 'w')
@@ -55,6 +56,16 @@ class Bot():
                     user = self.config.mysql["user"],
                     passwd = self.config.mysql["passwd"],
                     database = self.config.mysql["database"]
+                )
+            except:
+                print("Could not connect to database.")
+                
+            try:
+                self.jpdb = mysql.connector.connect(
+                    host = self.config.mysql["host"],
+                    user = self.config.mysql["user"],
+                    passwd = self.config.mysql["passwd"],
+                    database = self.config.mysql["jp-database"]
                 )
             except:
                 print("Could not connect to database.")
