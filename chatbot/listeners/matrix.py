@@ -4,6 +4,7 @@ from matrix_client.api import MatrixRequestError
 from requests.exceptions import MissingSchema
 import bot
 from commandcenter import *
+import time
 
 
 class Matrix():
@@ -46,6 +47,7 @@ class Matrix():
         for room in config.matrix["rooms"]:
             try:
                 self.rooms[room] = self.matrixClient.join_room(room)
+                ## Keep in mind, you will need: self.rooms[room].room_id
                 print("Joined room "+room)
             except MatrixRequestError as e:
                 print(e)
@@ -55,6 +57,7 @@ class Matrix():
                 else:
                     print("Couldn't find room:"+room)
                     sys.exit(12)
+
     def handleException( self, exception ):
         print ( exception )
         print ("An Error occured, ignoring")
@@ -66,9 +69,35 @@ class Matrix():
 
         #if success, start the command listener.
         for i in self.rooms:
-            self.rooms[i].add_listener(self.listener )
-        #self.matrixClient.listen_forever(exception_handler = self.eatMe);
+            self.rooms[i].add_listener( self.listener )
+        self.matrixClient.add_listener( self.clientEvent );
+        self.matrixClient.add_leave_listener( self.leftRoom );
         self.matrixClient.start_listener_thread( exception_handler = self.handleException )
+
+    def clientEvent( self, event ):
+        if event["type"] == "m.room.power_levels":
+            print("Damn it Hellbacon!")
+
+    def leftRoom(self, room_id, event): #room_id, not to be mistaken for room name.
+        #this shouldn't happen, so rejoin.
+        room = ""
+        time.sleep(10)
+        try:
+            for i in self.rooms:
+                if self.rooms[i].room_id == room_id:
+                    room = i
+                    self.rooms[room].leave();#remove the room, before rejoining.
+                    self.rooms[room] = self.matrixClient.join_room(room)
+                    self.rooms[room].add_listener( self.listener )
+
+        except MatrixRequestError as e:
+            print(e)
+            if e.code == 400:
+                print("Room ID/Alias in the wrong format")
+                sys.exit(11)
+            else:
+                print("Couldn't find room:"+room)
+                sys.exit(12)
 
     def listener(self, room, event):
         global theBot

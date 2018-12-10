@@ -73,6 +73,8 @@ class Bot():
     def checkDBConnect(self):
         if not self.mydb.is_connected():
             self.mydb.reconnect()
+        if not self.jpdb.is_connected():
+            self.jpdb.reconnect()
 
     def go(self):
         self.cc.buildList()
